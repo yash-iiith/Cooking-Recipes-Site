@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.TypeError'> unsupported operand type(s) for +: 'NoneType' and 'int'"
+p3
+sS'layer'
+p4
+S'/home/yash/Downloads/web2py/applications/mywiki/controllers/default.py'
+p5
+sS'code'
+p6
+S'def index():\n    """ this controller returns a dictionary rendered by the view\n    it lists all wiki pages\n    >>> index().has_key(\'pages\')\n    True\n    """\n    if auth.user!=None:\n        redirect(URL(\'afterlogin\'))\n    msg="WELCOME!"\n    return dict(msg=msg)\n\n@auth.requires_login()\ndef afterlogin():\n    msg="WELCOME!"\n    return dict(msg=msg)\n\n@auth.requires_login()\ndef create():\n    """creates a new empty wiki page"""\n    form = SQLFORM(db.page).process(next=URL(\'index\'))\n    return dict(form=form)\n\n@auth.requires_login()\ndef show():\n    """shows a wiki page"""\n    this_page = db.page(request.args(0,cast=int)) or redirect(URL(\'index\'))\n    if this_page.email==auth.user.email:\n        a=1\n    else:\n        a=2\n    db.post.page_id.default = this_page.id\n    form = SQLFORM(db.post).process() if auth.user else None\n    pagecomments = db(db.post.page_id==this_page.id).select()\n    return dict(page=this_page, comments=pagecomments, form=form,ps=a)\n\n@auth.requires_login()\ndef showall():\n    pages = db(db.page.id>0).select()\n    return dict(pages=pages)\n\n@auth.requires_login()\ndef showmy():\n    pages = db(db.page.email==auth.user.email).select()\n    return dict(pages=pages)\n@auth.requires_login()\ndef like():\n    this_page = db.page(request.args(0,cast=int)) or redirect(URL(\'index\'))\n    this_page.likes=this_page.likes+1\n    redirect(URL(\'show\',args=request.args))\n    msg="u liked this recipe"\n    return dict(msg=msg)\n\n@auth.requires_login()\ndef edit():\n    """edit an existing wiki page"""\n    this_page = db.page(request.args(0,cast=int)) or redirect(URL(\'index\'))\n    form = SQLFORM(db.page, this_page).process(\n    next = URL(\'show\',args=request.args))\n    return dict(form=form)\ndef user():\n    return dict(form=auth())\n\ndef download():\n    """allows downloading of documents"""\n    return response.download(request, db)\ndef search():\n    """an ajax wiki search page"""\n    return dict(form=FORM(INPUT(_id=\'keyword\',_name=\'keyword\',\n        _onkeyup="ajax(\'callback\', [\'keyword\'], \'target\');")),\n        target_div=DIV(_id=\'target\'))\ndef callback():\n    """an ajax callback that returns a <ul> of links to wiki pages"""\n    query = db.page.recipe_name.contains(request.vars.keyword)\n    pages = db(query).select(orderby=db.page.title)\n    links = [A(p.recipe_name, _href=URL(\'show\',args=p.id)) for p in pages]\n    return UL(*links)\n\nresponse._vars=response._caller(like)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/yash/Downloads/web2py/gluon/restricted.py", line 227, in restricted\n    exec ccode in environment\n  File "/home/yash/Downloads/web2py/applications/mywiki/controllers/default.py", line 78, in <module>\n  File "/home/yash/Downloads/web2py/gluon/globals.py", line 412, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/yash/Downloads/web2py/gluon/tools.py", line 4236, in f\n    return action(*a, **b)\n  File "/home/yash/Downloads/web2py/applications/mywiki/controllers/default.py", line 48, in like\n    this_page.likes=this_page.likes+1\nTypeError: unsupported operand type(s) for +: \'NoneType\' and \'int\'\n'
+p11
+s.

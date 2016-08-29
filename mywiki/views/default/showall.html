@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+
+<h3>
+    {{=LI(A('Search Recipe', _href=URL('search')))}}
+</h3>
+<table>
+{{for i,row in enumerate(pages):}}
+    <tr>
+{{if i==items_per_page: break}}
+        <td><h3 style="color:transparent;padding-left:40px;padding-right:30%">{{=LI(A(row.recipe_name, _href=URL('show', args=row.id)))}}</h3></td>
+        <td><h3 style="color:purple;padding-right:30%">{{=row.description}}</h3></td>
+        <td style="padding-top:15px;"><img style="padding-right:0px;border:2px solid black;" src="{{=URL('download',args=row.image)}}" alt="{{=row.recipe_name}}" width="200px" height="200px"></td>
+    </tr>
+{{pass}}
+</table>
+
+{{if page:}}
+<h2 style="padding-left:40px;padding-right:80px"><a href="{{=URL(args=[page-1])}}">previous</a></h2>
+{{pass}}
+
+{{if len(pages)>items_per_page:}}
+<h2 style="padding-left:40px;padding-right:80px"><a href="{{=URL(args=[page+1])}}">next</a></h2>
+{{pass}}

@@ -1,0 +1,4 @@
+{{extend 'layout.html'}}
+<h2>{{=A('All Recipes', _href=URL('showall'))}}</h2>
+<h2>{{=A('My Recipes', _href=URL('showmy'))}}</h2>
+<h2>{{=A('Upload a Recipe', _href=URL('create'))}}</h2>

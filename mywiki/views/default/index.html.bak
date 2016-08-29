@@ -1,0 +1,5 @@
+{{extend 'layout.html'}}
+ <h2>{{=msg}}</h2>
+ <h1><a style="color:red" href="http://127.0.0.1:8000/mywiki/default/user/register?_next=/mywiki/default/index">SIGN UP</a></h1>
+ <h1><a style="color:blue" href="http://127.0.0.1:8000/mywiki/default/user/login">LOG IN</a></h1>
+ <h1><a style="color:purple" href="http://127.0.0.1:8000/mywiki/default/user/request_reset_password">LOST PASSWORD</a></h1>

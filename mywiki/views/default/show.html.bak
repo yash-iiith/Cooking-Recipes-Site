@@ -1,0 +1,37 @@
+{{extend 'layout.html'}}
+<h1>{{=page.recipe_name}}</h1>
+{{if ps==1:}}
+<h4>{{=A('Edit', _href=URL('edit', args=request.args))}}</h4>
+{{pass}}
+
+<img style="float:right;display:inline;width:400px;height:350px;" style="padding-right:20px" src="{{=URL('download',args=page.image)}}" alt="{{=page.recipe_name}}" width="400px" height="400px"></td>
+<br/>
+
+<h4>{{=MARKMIN(page.description)}}</h4>
+<h3>
+    Created On
+</h3>
+{{=MARKMIN(page.created_on)}}
+<h2 style="color:blue">Full Recipe</h2>
+<h3>{{=MARKMIN(page.full_recipe)}}</h3>
+<br/><br/>
+<h2><div id="callback-target">Likes: {{=page.likes}}</div></h2>
+{{=A('Like this', callback=URL('inc_likes', args=[page.id, page.likes]), target="callback-target", _class="btn btn-default", _id="bl1")}}
+{{=A('Unlike this', callback=URL('dec_likes', args=[page.id, page.likes]), target="callback-target", _class="btn btn-default", _id="bl2")}}
+
+<h2 style="padding-top:40px;">Comments</h2>
+{{for post in comments:}}
+<p>{{=db.auth_user[post.created_by].first_name}} on {{=post.created_on}}
+says <i>{{=post.comment}}</i></p>
+{{pass}}
+<h2>Post a comment</h2>
+{{=form}}
+<script>
+{{if (flag==True):}}
+	jQuery('#bl1').hide();
+{{else:}}
+	jQuery('#bl2').hide();
+{{pass}}
+jQuery('#bl1').click(function(){jQuery('#bl1').hide();jQuery('#bl2').show()});
+jQuery('#bl2').click(function(){jQuery('#bl2').hide();jQuery('#bl1').show()});
+</script>
